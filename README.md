@@ -155,10 +155,84 @@ If a ***User Account Control*** prompt pops up asking for permission to run the 
 ![Screenshot27](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/bc3f8698-b2b0-4b92-887c-675fe629ea9f)
 
 
-Now refocus the ***File Explorer*** window and select ***This PC*** in the left-hand pane and notice that the script created the ***Share*** under network locations
+Now restore the ***File Explorer*** window and select ***This PC*** in the left-hand pane and notice that the script created the ***Share*** under network locations
 ![Screenshot28](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/52502f32-0486-4811-a1b2-397ea0b39f71) -->
 
 
+Next we will be creating the Group Policy Object for the script that we just created. Open the ***Server Manager*** window and click ***Tools*** and then select ***Group Policy Management***
+![Screenshot29](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/6e1ae095-5bde-46ad-8f14-a991cd716078)
+
+
+In the ***Group Policy Management*** window right-click ***Group Policy Objects*** and click ***New***
+![Screenshot30](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/b2dd3cd1-fdb0-47c3-9885-e57212097255)
+
+In the ***New GPO*** pop-up, name the object ***XShare Logon Script GPO***
+
+Click ***OK***
+![Screenshot31](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/ea9cd782-0b88-455d-928a-2e09f2b48feb)
+
+
+Back on the ***Group Policy Management*** window, right-click ***XShare Logon Script GPO*** and select ***Edit***
+![Screenshot32](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/84ed437b-fd7b-4aa6-bcf2-244e675ae62f)
+
+
+On the ***Group Policy Management Editor*** window expand ***User configuration > Policies > Windows Settings*** select ***Scripts (Logon/Logoff)***
+![Screenshot33](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/30639fc0-1672-44d8-8453-a30dec54dfd8)
+
+
+Now in the ***Scripts (Login/Logoff)*** pane right-click ***Logon*** and select ***Properties***
+![Screenshot34](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/94db04b9-d23e-4987-86de-8571c6594668)
+
+
+From the ***Logon Properties*** window select ***Show Files***. The ***Logon*** window will be empty, what we will do is restore the ***File Explorer*** window and copy our ***XShare*** script we saved to the desktop and paste it to the ***Logon*** File Explorer window
+
+Close the ***Logon*** File Explorer window and restore the ***Group Policy Management Editor*** window from the taskbar
+![Screenshot35](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/81af6c76-f51a-4c95-bfa2-0696e1fd7693)
+
+
+In the ***Logon Properties*** window click ***Add*** and then click ***Browse*** and in the ***Browse*** dialogue box select ***XShare***
+
+Click ***OK***
+![Screenshot36](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/adcdc458-e913-4e34-92bc-3ed4df65c6a7)
+
+
+Now, inside the ***Logon Properties*** dialogue box you see that XShare has been added as a logon script
+![Screenshot37](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/c84c5337-ccd6-473d-935a-100c6581b8cf)
+
+
+You can close ***Group Policy Management Editor*** and restore the ***Group Policy Management*** window and expand ***Group Policy Objects*** and select ***XShare Logon Script GPO*** and under ***Security Filtering*** in the right pane click ***Add***
+![Screenshot38](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/752554d1-2fa7-4dee-b4e2-7671bb556f30)
+
+
+In the ***Select User, Computer, or Group*** dialogue box, enter the name "testuser" in the ***Enter the object name to select*** field and click ***Check Names***
+
+Click ***OK***
+And now ***testuser*** has been added to ***XShare Logon Script GPO*** 
+![Screenshot39](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/7a23e9a7-d9b1-4109-8ab9-52711989736e)
+
+
+Now right-click on the name of your domain in the left pane and select ***Link Existing GPO*** and in the ***Select GPO*** window select ***XShare Logon Script GPO***
+
+Click ***OK***
+![Screenshot40](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/239d1ee4-70cd-4402-8ae5-03ecb19742f1)
+
+
+Now we will log into our ***testuser*** account on our client machine and update the Group Policy. Once you're logged in, right-click the Windows ***Start*** charm and select ***Windows PowerShell (Admin)***
+![Screenshot41](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/75265941-d9b0-450c-a39f-fea5e796d229)
+
+
+If you would like to see the things you could do with the gpupdate command type ***gpupdate /?*** but for now, we will use the command ***gpupdate /force*** to apply any changes that have taken place and press enter. Once you are done you will see PowerShell tell you that the computer and user policy updates were completed successfully
+![Screenshot42](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/b7ac2667-77cd-4261-8045-5058fff914df)
+
+
+Now, type the command ***gpresult /r*** into PowerShell and press enter. This will display all of the policies that have changed and the objects they were applied to
+
+If you get a ***no user data in RSoP*** error close the ***PowerShell*** window and reopen it with standard permissions and it should work
+![Screenshot43](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/e39f5ce2-0641-4863-823a-b928bad95d48)
+
+
+Now open ***File Explorer*** from the taskbar and click ***This PC*** and in the details pane to the right, you should see ***Share (\\\DC) (X:)*** under ***Network locations***
+![Screenshot44](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/9a6e225c-5354-42cf-b676-5abb63671295)
 
 
 
