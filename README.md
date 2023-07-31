@@ -7,7 +7,7 @@ This tutorial will outline the implementation of a logon script using Active Dir
 - OracleVM VirtualBox
 - Active Directory Domain Services
 - Batch files
-- Group Policy Editor
+- Group Policy Management
 - Windows PowerShell
 
 ## Operating Systems Used
@@ -159,7 +159,7 @@ Now restore the ***File Explorer*** window and select ***This PC*** in the left-
 ![Screenshot28](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/52502f32-0486-4811-a1b2-397ea0b39f71) -->
 
 
-Next we will be creating the Group Policy Object for the script that we just created. Open the ***Server Manager*** window and click ***Tools*** and then select ***Group Policy Management***
+Next we will be creating the Group Policy Object for the script that we just created. Restore the ***Server Manager*** window and click ***Tools*** and then select ***Group Policy Management***
 ![Screenshot29](https://github.com/Brandon-Baker11/Configuring-an-Active-Directory-logon-script/assets/140644499/6e1ae095-5bde-46ad-8f14-a991cd716078)
 
 
